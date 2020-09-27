@@ -2,3 +2,11 @@
 <div class="container">
      {{name}}, {{message}}, You can manage your ToDos <a routerLink='/todos'>here</a>
 </div>
+<div class="container">
+     Click here to get customised Welcome message
+     <button (click)="getWelcomeMessageWithParam()" class="btn btn-success">Get Welcome Message</button>
+</div>
+<div class="container">
+     <h2>Your customise message </h2> 
+     {{message}}
+</div>
