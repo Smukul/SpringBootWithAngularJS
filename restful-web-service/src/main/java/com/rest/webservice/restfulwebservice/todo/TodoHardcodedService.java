@@ -18,6 +18,16 @@ public class TodoHardcodedService {
         todos.add(new Todo(++counter,"Ranveer","Complete the Fuleri book",new Date(),false));
     }
 
+    public Todo save(Todo todo) {
+        if(todo.getId() == -1 || todo.getId() == 0){
+            todo.setId(++counter);
+        } else {
+            deleteById(todo.getId());
+        }
+        todos.add(todo);
+        return todo;
+    }
+
     public List<Todo> findAll(){
         return todos;
     }
@@ -29,7 +39,7 @@ public class TodoHardcodedService {
         return todo;
     }
 
-    private Todo findById(Integer id) {
+    public Todo findById(Integer id) {
         for(Todo todo : todos){
             if(todo.getId().equals(id)){
                 return todo;

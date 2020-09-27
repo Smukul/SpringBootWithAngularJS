@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {TodoDataService} from '../service/todo/todo-data.service';
 
 @Component({
@@ -15,7 +16,10 @@ export class ListTodosComponent implements OnInit {
     // new ToDo(3, "Become expoert in Java SpringBoot",new Date(),false),
     // new ToDo(4, "Planning to Add ToDo's soon",new Date(),false)
     // ]
-  constructor(private todoService : TodoDataService) { }
+  constructor(
+    private todoService : TodoDataService,
+    private router : Router
+    ) { }
 
   ngOnInit(): void {
     this.refreshToDos()
@@ -43,6 +47,11 @@ export class ListTodosComponent implements OnInit {
 
   updateToDo(id:number){
     console.log("Update click"+id)
+    this.router.navigate(['todos',id])
+  }
+
+  addTodo(){
+    this.router.navigate(['todos',-1])
   }
 }
 
