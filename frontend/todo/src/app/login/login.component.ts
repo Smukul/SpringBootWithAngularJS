@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HardcodedAuthService } from '../service/hardcoded-auth.service';
+import { BasicAuthService } from '../service/basic-auth.service'
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,10 @@ export class LoginComponent implements OnInit {
   inValidLogin = false
 
   //Dependency Injection - injecting router
-  constructor(private router : Router, private hardcodedService : HardcodedAuthService) { }
+  constructor(
+    private router : Router, 
+    private hardcodedService : HardcodedAuthService,
+    private basicAuth : BasicAuthService) { }
 
   ngOnInit(): void {
   }
@@ -31,5 +35,37 @@ export class LoginComponent implements OnInit {
       this.inValidLogin = true;
     }
     // console.log(this.password)
+  }
+
+  handleBasicAuthLogin() {
+    console.log(this.userName)
+    this.basicAuth.executeBasucAuthService(this.userName,this.password)
+      .subscribe(
+        data => {
+          console.log(data)
+          this.router.navigate(['welcome', this.userName]);
+          this.inValidLogin = false
+        },
+        error => {
+          console.log(error)
+          this.inValidLogin = true
+        }
+      )
+    // console.log(this.password)
+  }
+  handleJWTcAuthLogin() {
+    console.log(this.userName)
+    this.basicAuth.executeJWTAuthService(this.userName,this.password)
+      .subscribe(
+        data => {
+          console.log(data)
+          this.router.navigate(['welcome', this.userName]);
+          this.inValidLogin = false
+        },
+        error => {
+          console.log(error)
+          this.inValidLogin = true
+        }
+      )
   }
 }

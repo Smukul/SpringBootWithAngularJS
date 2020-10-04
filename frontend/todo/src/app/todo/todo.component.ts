@@ -2,6 +2,7 @@ import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToDo } from '../list-todos/list-todos.component';
+import { BasicAuthService } from '../service/basic-auth.service';
 import { TodoDataService } from '../service/todo/todo-data.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class TodoComponent implements OnInit {
   constructor(
     private todoService : TodoDataService,
     private router : ActivatedRoute,
-    private route : Router
+    private route : Router,
+    private basicAuthService : BasicAuthService
     ) { }
 
   ngOnInit(): void {
@@ -32,15 +34,16 @@ export class TodoComponent implements OnInit {
   }
 
   saveTodo(){
+    let user = this.basicAuthService.getAuthenticatedUser()
     if(this.todo.id == -1){
-      this.todoService.createTodo('TestUser', this.todo).subscribe(
+      this.todoService.createTodo(user, this.todo).subscribe(
         data => {
           console.log(data)
           this.route.navigate(['todos'])
         }
       )
     } else {
-    this.todoService.updateTodo('TestUser',this.id,this.todo).subscribe(
+    this.todoService.updateTodo(user,this.id,this.todo).subscribe(
       data => {
         console.log(data)
         this.route.navigate(['todos'])
